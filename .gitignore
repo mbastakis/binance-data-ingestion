@@ -1,4 +1,8 @@
 # DB data
-timescale_data
-timescale_data_dev
+.timescale_data
+.timescale_data_dev
+state.db
 
+# Python
+__pycache__/
+*.pyc

@@ -23,7 +23,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - timescale_data:/var/lib/postgresql/data
+      - .timescale_data:/var/lib/postgresql/data
     networks:
       - app_network
 
