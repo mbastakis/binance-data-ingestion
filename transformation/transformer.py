@@ -26,26 +26,26 @@ class DataTransformer:
                 self.logger.error("Error transforming data for %s: %s", symbol, e)
 
     def _downsample_data(self, df):
-            downsample_freq = f"{self.config['downsampling_frequency']}T"  # e.g., '1T' for 1 minute
+        downsample_freq = f"{self.config['downsampling_frequency']}T"  # e.g., '1T' for 1 minute
 
-            df['price'] = pd.to_numeric(df['price'], errors='coerce')
-            # Drop rows with NaN prices after conversion
-            initial_count = len(df)
-            df = df.dropna(subset=['price'])
-            dropped_count = initial_count - len(df)
-            if dropped_count > 0:
-                self.logger.warning("Dropped %d rows due to non-numeric prices.", dropped_count)
+        df['price'] = pd.to_numeric(df['price'], errors='coerce')
+        # Drop rows with NaN prices after conversion
+        initial_count = len(df)
+        df = df.dropna(subset=['price'])
+        dropped_count = initial_count - len(df)
+        if dropped_count > 0:
+            self.logger.warning("Dropped %d rows due to non-numeric prices.", dropped_count)
 
-            df.set_index('timestamp', inplace=True)            
-            df_downsampled = df.resample(downsample_freq).agg({'price': ['mean', 'median']})
-            
-            df_downsampled.columns = ['avg_price', 'median_price']
-            df_downsampled.dropna(inplace=True)
+        df.set_index('timestamp', inplace=True)            
+        df_downsampled = df.resample(downsample_freq).agg({'price': ['mean', 'median']})
 
-            df_downsampled.reset_index(inplace=True)
-            # Assign 'symbol' column (assuming all rows in df have the same symbol)
-            df_downsampled['symbol'] = df['symbol'].iloc[0]
+        df_downsampled.columns = ['avg_price', 'median_price']
+        df_downsampled.dropna(inplace=True)
 
-            df_downsampled = df_downsampled[['symbol', 'timestamp', 'avg_price', 'median_price']]
+        df_downsampled.reset_index(inplace=True)
+        # Assign 'symbol' column (assuming all rows in df have the same symbol)
+        df_downsampled['symbol'] = df['symbol'].iloc[0]
 
-            return df_downsampled
+        df_downsampled = df_downsampled[['symbol', 'timestamp', 'avg_price', 'median_price']]
+
+        return df_downsampled
