@@ -1,0 +1,10 @@
+binance-connector==3.9.0
+certifi==2024.8.30
+charset-normalizer==3.4.0
+idna==3.10
+psycopg2-binary==2.9.9
+pycryptodome==3.21.0
+PyYAML==6.0.2
+requests==2.32.3
+urllib3==2.2.3
+websocket-client==1.8.0
