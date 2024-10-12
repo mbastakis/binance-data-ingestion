@@ -1,24 +1,25 @@
 # Application layer
 symbols:
-  - 'BTCUSDT'
-  - 'ETHUSDT'
-  - 'BNBUSDT'
-  - 'ADAUSDT'
-  - 'XRPUSDT'
-  - 'DOGEUSDT'
-  - 'DOTUSDT'
-  - 'UNIUSDT'
-  - 'LINKUSDT'
-  - 'LTCUSDT'
-  - 'BCHUSDT'
-  - 'SOLUSDT'
-  - 'MATICUSDT'
-  - 'XLMUSDT'
-  - 'ETCUSDT'
-  - 'THETAUSDT'
-  - 'ICPUSDT'
-sampling_frequency: 1  # in seconds
-downsampling_frequency: 60  # in minutes
-data_points: 1000
-api_rate_limit: 100  # max API calls per second
-max_workers: 5  # max number of workers
+  - "BTCUSDT"
+  - "ETHUSDT"
+  - "BNBUSDT"
+  - "ADAUSDT"
+  - "XRPUSDT"
+  - "DOGEUSDT"
+  - "DOTUSDT"
+  - "UNIUSDT"
+  - "LINKUSDT"
+  - "LTCUSDT"
+  - "BCHUSDT"
+  - "SOLUSDT"
+  - "MATICUSDT"
+  - "XLMUSDT"
+  - "ETCUSDT"
+  - "THETAUSDT"
+  - "ICPUSDT"
+
+sampling_frequency: 1 # in seconds
+downsampling_frequency: 60 # in minutes
+data_points: 1000 # number of data points to fetch for each symbol
+api_rate_limit: 100 # max API calls per second
+max_workers: 100 # max number of workers

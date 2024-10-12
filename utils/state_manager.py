@@ -1,8 +1,5 @@
-# utils/state_manager.py
-
 import threading
 from database.state_repository import StateRepository
-
 
 class StateManager:
     def __init__(self):

@@ -1,5 +1,3 @@
-# models/models.py
-
 from sqlalchemy import Column, String, TIMESTAMP, Float, JSON, PrimaryKeyConstraint, Integer
 from sqlalchemy.ext.declarative import declarative_base
 

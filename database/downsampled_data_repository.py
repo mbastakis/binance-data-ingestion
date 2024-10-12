@@ -1,9 +1,6 @@
-# database/downsampled_data_repository.py
-
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from database.models import DownsampledData, Base
 from database.database import Database
-from sqlalchemy.dialects.postgresql import insert as pg_insert
-
 
 class DownsampledDataRepository:
     def __init__(self):
