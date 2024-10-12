@@ -1,4 +1,5 @@
 # Binance Data Ingestion and Processing Pipeline
+# Submission by Michail Mpastakis
 
 ## Table of Contents
 
