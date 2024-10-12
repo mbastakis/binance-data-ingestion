@@ -8,6 +8,8 @@ from utils.config_loader import ConfigLoader
 from utils.state_manager import StateManager
 from loading.loader import DataLoader
 from utils.logger import get_logger
+from datetime import datetime, timezone  # Add this import
+
 
 class BinanceIngestionClient(DataIngestionClient):
     def __init__(self, config):
@@ -27,7 +29,6 @@ class BinanceIngestionClient(DataIngestionClient):
         self.stop_event = threading.Event()
         self.logger = get_logger(self.__class__.__name__)
 
-
     def start_ingestion(self):
         """Start the data ingestion process for all symbols."""
         for symbol in self.symbols:
@@ -37,7 +38,7 @@ class BinanceIngestionClient(DataIngestionClient):
         """Stop the data ingestion process."""
         self.stop_event.set()
         self.executor.shutdown(wait=True)
-        print("Ingestion stopped.")
+        self.logger.info("Ingestion stopped.")
 
     def ingest_data(self, symbol):
         """Ingest data for a single symbol."""
@@ -46,7 +47,8 @@ class BinanceIngestionClient(DataIngestionClient):
             with self.rate_limiter:
                 try:
                     data = self.client.ticker_price(symbol=symbol)
-                    timestamp = time.time()
+                    # Convert timestamp to datetime with timezone
+                    timestamp = datetime.now(timezone.utc)
                     # Save data
                     self.data_loader.load_raw_data(symbol, data, timestamp)
                     # Update state
@@ -54,7 +56,6 @@ class BinanceIngestionClient(DataIngestionClient):
                     self.state_manager.update_collected_points(symbol, collected_points)
                     self.logger.info(f"Collected data point {collected_points} for {symbol}")
                 except Exception as e:
-                    self.logger.error(f"Error processing data for {symbol}: {e}")  # Update error message
+                    self.logger.error(f"Error processing data for {symbol}: {e}")
                 finally:
                     time.sleep(self.sampling_frequency)
-

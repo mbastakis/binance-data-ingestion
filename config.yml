@@ -3,7 +3,7 @@ symbols:
   - 'BTCUSDT'
   - 'ETHUSDT'
 sampling_frequency: 1  # in seconds
-data_points: 1000
+data_points: 10000
 api_rate_limit: 10  # max API calls per second
 max_workers: 5  # max number of threads
 resample_frequency: '10S'  # resample frequency
