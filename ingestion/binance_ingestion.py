@@ -4,11 +4,10 @@ from concurrent.futures import ThreadPoolExecutor
 from binance.spot import Spot as Client
 from ingestion.base_ingestion import DataIngestionClient
 from utils.rate_limiter import RateLimiter
-from utils.config_loader import ConfigLoader
 from utils.state_manager import StateManager
-from loading.loader import DataLoader
 from utils.logger import get_logger
-from datetime import datetime, timezone  # Add this import
+from datetime import datetime, timezone
+from database.raw_data_repository import RawDataRepository
 
 
 class BinanceIngestionClient(DataIngestionClient):
@@ -24,7 +23,7 @@ class BinanceIngestionClient(DataIngestionClient):
         self.client = Client(self.api_key, self.api_secret)
         self.rate_limiter = RateLimiter(self.api_rate_limit)
         self.state_manager = StateManager()
-        self.data_loader = DataLoader(config)
+        self.raw_data_repo = RawDataRepository()
         self.executor = ThreadPoolExecutor(max_workers=self.max_workers)
         self.stop_event = threading.Event()
         self.logger = get_logger(self.__class__.__name__)
@@ -46,11 +45,12 @@ class BinanceIngestionClient(DataIngestionClient):
         while collected_points < self.data_points and not self.stop_event.is_set():
             with self.rate_limiter:
                 try:
+                    self.logger.debug(f"Requesting data for {symbol}...")
                     data = self.client.ticker_price(symbol=symbol)
                     # Convert timestamp to datetime with timezone
                     timestamp = datetime.now(timezone.utc)
                     # Save data
-                    self.data_loader.load_raw_data(symbol, data, timestamp)
+                    self.raw_data_repo.insert_raw_data(symbol, data, timestamp)
                     # Update state
                     collected_points = self.state_manager.update_collected_points(symbol)
                     self.logger.info(f"Collected data point {collected_points} for {symbol}")

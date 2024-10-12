@@ -23,8 +23,7 @@ class Orchestrator:
         self.scheduler.add_job(
             self.transformer.transform_data,
             'interval',
-            minutes=self.config['downsampling_frequency'],  # TODO: Run every minute
-            # seconds=10,  # TODO: remove this Run every 10 seconds
+            minutes=self.config['downsampling_frequency'],
             id='data_transformation'
         )
         # Schedule the raw data cleanup job

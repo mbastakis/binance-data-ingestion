@@ -11,7 +11,7 @@ def sample_transformer():
     Fixture to create a DataTransformer instance with a sample configuration.
     """
     config = {
-        'resample_frequency': '1T',  # 1 Minute
+        'downsample_frequency': '1T',  # 1 Minute
         'symbols': ['AAPL']
     }
     transformer = DataTransformer(config)
@@ -60,7 +60,7 @@ def test_downsample_data_valid(sample_transformer, valid_sample_df):
     transformer = sample_transformer
     df_downsampled = transformer._downsample_data(valid_sample_df)
     
-    # Expected downsampled data: each timestamp corresponds to one resample interval
+    # Expected downsampled data: each timestamp corresponds to one downsample interval
     expected_df = pd.DataFrame({
         'symbol': ['AAPL', 'AAPL', 'AAPL', 'AAPL'],
         'timestamp': pd.to_datetime([
@@ -131,7 +131,7 @@ def test_downsample_data_non_uniform_timestamps(sample_transformer):
     
     df_downsampled = transformer._downsample_data(df)
     
-    # Expected downsampled data: Each timestamp corresponds to a resample interval, but with gaps, no aggregation needed
+    # Expected downsampled data: Each timestamp corresponds to a downsample interval, but with gaps, no aggregation needed
     expected_df = pd.DataFrame({
         'symbol': ['AAPL', 'AAPL', 'AAPL'],
         'timestamp': pd.to_datetime([
