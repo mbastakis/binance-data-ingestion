@@ -11,7 +11,7 @@ def sample_transformer():
     Fixture to create a DataTransformer instance with a sample configuration.
     """
     config = {
-        'downsample_frequency': '1T',  # 1 Minute
+        'downsampling_frequency': 1,  # 1 Minute
         'symbols': ['AAPL']
     }
     transformer = DataTransformer(config)
@@ -131,7 +131,7 @@ def test_downsample_data_non_uniform_timestamps(sample_transformer):
     
     df_downsampled = transformer._downsample_data(df)
     
-    # Expected downsampled data: Each timestamp corresponds to a downsample interval, but with gaps, no aggregation needed
+    # Expected downsampled data: each timestamp corresponds to the downsample interval without aggregation
     expected_df = pd.DataFrame({
         'symbol': ['AAPL', 'AAPL', 'AAPL'],
         'timestamp': pd.to_datetime([
@@ -167,7 +167,8 @@ def test_downsample_data_duplicate_timestamps(sample_transformer, caplog):
         'symbol': ['AAPL', 'AAPL', 'AAPL', 'AAPL']
     })
     
-    df_downsampled = transformer._downsample_data(df)
+    with caplog.at_level('WARNING'):
+        df_downsampled = transformer._downsample_data(df)
     
     # Expected downsampled data:
     # 09:00:00: avg_price=(100+110)/2=105, median_price=105
@@ -187,3 +188,6 @@ def test_downsample_data_duplicate_timestamps(sample_transformer, caplog):
     expected_df_sorted = expected_df.sort_values('timestamp').reset_index(drop=True)
     
     pd.testing.assert_frame_equal(df_downsampled_sorted, expected_df_sorted)
+    
+    # Check if warning was logged
+    assert "Dropped 0 rows due to non-numeric prices." not in caplog.text
