@@ -1,21 +1,19 @@
-import time
-from ingestion.binance_ingestion import BinanceIngestionClient
-from utils.config_loader import ConfigLoader
+import threading
+from orchestrator.orchestrator import Orchestrator
 
 def main():
-    config = ConfigLoader.load_config()
-    ingestion_client = BinanceIngestionClient(config)
-
+    orchestrator = Orchestrator()
+    stop_event = threading.Event()
     try:
-        ingestion_client.start_ingestion()
-        while True:
-            time.sleep(1)  # Keep the main thread alive
+        orchestrator.start()
+        # Wait indefinitely until a KeyboardInterrupt is received
+        stop_event.wait()
     except KeyboardInterrupt:
-        print("Stopping ingestion...")
-        ingestion_client.stop_ingestion()
+        print("Stopping orchestrator...")
+        orchestrator.stop()
     except Exception as e:
         print(f"An error occurred: {e}")
-        ingestion_client.stop_ingestion()
+        orchestrator.stop()
 
 if __name__ == '__main__':
     main()
