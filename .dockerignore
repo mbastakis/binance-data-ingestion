@@ -1,0 +1,5 @@
+# Exclude TimescaleDB data directories
+.timescale_data/
+.timescale_data/**
+.timescale_data_dev/
+.timescale_data_dev/**

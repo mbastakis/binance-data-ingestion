@@ -10,13 +10,6 @@
   },
   "shutdownAction": "stopCompose",
   "forwardPorts": [5432],
-  "remoteEnv": {
-    "DATABASE_HOST": "db",
-    "DATABASE_PORT": "5432",
-    "DATABASE_USER": "postgres",
-    "DATABASE_PASSWORD": "postgres",
-    "DATABASE_NAME": "timescale_db"
-  },
   "overrideCommand": false,
   "postCreateCommand": "pip install --no-cache-dir -r requirements.txt"
 }
