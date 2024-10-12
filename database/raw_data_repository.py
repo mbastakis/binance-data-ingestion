@@ -45,12 +45,10 @@ class RawDataRepository:
         finally:
             session.close()
 
-    def delete_old_raw_data(self, retention_period='1 day'):
+    def delete_all_raw_data(self):
         session = Database.get_session()
         try:
-            session.query(RawData).filter(
-                RawData.timestamp < func.now() - text(f"INTERVAL '{retention_period}'")
-            ).delete(synchronize_session=False)
+            session.query(RawData).delete(synchronize_session=False)
             session.commit()
         except Exception as e:
             session.rollback()

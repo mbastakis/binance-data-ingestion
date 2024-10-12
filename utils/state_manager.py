@@ -13,9 +13,9 @@ class StateManager:
         with self.lock:
             return self.repository.get_collected_points(symbol)
 
-    def update_collected_points(self, symbol, collected_points):
+    def update_collected_points(self, symbol):
         with self.lock:
-            self.repository.update_collected_points(symbol, collected_points)
+            return self.repository.update_collected_points(symbol)
 
     def reset_state(self):
         with self.lock:

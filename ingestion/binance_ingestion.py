@@ -52,8 +52,7 @@ class BinanceIngestionClient(DataIngestionClient):
                     # Save data
                     self.data_loader.load_raw_data(symbol, data, timestamp)
                     # Update state
-                    collected_points += 1
-                    self.state_manager.update_collected_points(symbol, collected_points)
+                    collected_points = self.state_manager.update_collected_points(symbol)
                     self.logger.info(f"Collected data point {collected_points} for {symbol}")
                 except Exception as e:
                     self.logger.error(f"Error processing data for {symbol}: {e}")

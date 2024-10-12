@@ -14,7 +14,7 @@ class DownsampledDataRepository:
         session = Database.get_session()
         try:
             df_downsampled.rename(columns={'price': 'avg_price'}, inplace=True)
-            df_downsampled = df_downsampled[['symbol', 'timestamp', 'avg_price']]
+            df_downsampled = df_downsampled[['symbol', 'timestamp', 'avg_price', 'median_price']]
 
             records = df_downsampled.to_dict(orient='records')
             stmt = pg_insert(DownsampledData.__table__).values(records)
