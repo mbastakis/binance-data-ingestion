@@ -13,6 +13,8 @@ services:
       DATABASE_NAME: timescale_db
     networks:
       - app_network
+    stdin_open: true
+    tty: true
 
   db:
     image: timescale/timescaledb:latest-pg14
@@ -31,4 +33,4 @@ networks:
   app_network:
 
 volumes:
-  timescale_data:
+  timescale_data_dev:

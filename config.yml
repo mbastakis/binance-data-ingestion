@@ -21,5 +21,4 @@ sampling_frequency: 1  # in seconds
 downsampling_frequency: 60  # in minutes
 data_points: 1000
 api_rate_limit: 100  # max API calls per second
-max_workers: 5  # max number of threads
-
+max_workers: 5  # max number of workers

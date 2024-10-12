@@ -1,6 +1,9 @@
 {
   "name": "Python 3 with TimescaleDB",
-  "dockerComposeFile": ["../docker-compose.dev.yml"],
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "../docker-compose.dev.yml"
+  ],
   "service": "app",
   "workspaceFolder": "/app",
   "customizations": {
